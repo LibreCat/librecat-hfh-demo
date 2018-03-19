@@ -1,0 +1,12 @@
+http://search.cpan.org/dist/HTML-FormHandler-0.40057/lib/HTML/FormHandler/Manual/Reference.pod#Form_Methods_and_process_hooks
+http://search.cpan.org/dist/HTML-FormHandler-0.40055/lib/HTML/FormHandler/Manual/Rendering.pod
+http://search.cpan.org/~gshank/HTML-FormHandler-0.40016/lib/HTML/FormHandler/TraitFor/I18N.pm
+
+http://search.cpan.org/~gshank/HTML-FormHandler/lib/HTML/FormHandler/Manual/Rendering.pod#html_attributes_callback
+  handy to add custom attributes to every field instance
+  requires subclass of HTML::FormHandler
+
+http://search.cpan.org/~gshank/HTML-FormHandler-0.40066/lib/HTML/FormHandler/Manual/Templates.pod
+  use templates for everything
+
+  cf. http://cpansearch.perl.org/src/GSHANK/HTML-FormHandler-0.40068/share/templates/
