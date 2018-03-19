@@ -3,7 +3,8 @@ use Catmandu::Sane;
 use Catmandu::Util qw(:is);
 use Catmandu;
 use Dancer qw(:syntax);
-use HTML::FormHandler;
+#use HTML::FormHandler;
+use LibreCat::Form;
 
 hook before_template_render => sub {
   my $tokens = $_[0];
@@ -53,7 +54,7 @@ sub get_form {
         layout_classes => $config->{layout_classes} // +{}
     );
 
-    HTML::FormHandler->new( %args );
+    LibreCat::Form->new( %args );
 
 }
 

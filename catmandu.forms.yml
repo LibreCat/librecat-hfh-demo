@@ -8,9 +8,6 @@ default:
       label: "Publication Type"
       type: "Select"
       required: 1
-      element_wrapper_class: "col-md-10"
-      element_class: "sticky selectpicker"
-      label_class: "col-md-2"
       options:
         - label: Book
           value: book
@@ -27,27 +24,21 @@ default:
       type: "Pattern"
       regex: "^10.\\d{4,9}\\/[-._;()\\/:A-Za-z0-9]+$"
       required: 0
-      element_wrapper_class: "col-md-10"
-      element_class: "sticky"
-      label_class: "col-md-2"
       element_attr:
         placeholder: "e.g. 10.4119/xyz/2695161"
     - id: department
       name: department
       type: Repeatable
       add_extra: 1
-      init_contains:
-        element_wrapper_class: "form-inline col-md-offset-2 col-md-10"
+      #init_contains:
+      #  element_wrapper_class: "form-inline col-md-offset-2 col-md-10"
 
     - id: department.contains
       name: department.contains
       label: Department
       type: Text
-      element_class: "sticky department"
       element_attr:
         placeholder: "Start typing, or use (arrow down) to choose a department from the list."
-      element_wrapper_class: "col-md-10"
-      label_class: "col-md-2"
       tags:
         before_element_inside_div: |
           <div class="input-group sticky">
@@ -70,9 +61,6 @@ default:
 
       type: Text
       required: 1
-      element_class: "sticky"
-      element_wrapper_class: "col-md-10"
-      label_class: "col-md-2"
       element_attr:
         placeholder: "e.g. Handbook of eBook Publishing"
 
@@ -81,9 +69,6 @@ default:
       label: "Publishing Year"
       type: Integer
       range_start: 1900
-      element_class: "sticky"
-      element_wrapper_class: "col-md-3"
-      label_class: "col-md-2"
       element_attr:
         placeholder: "e.g. 1900"
 
@@ -95,9 +80,9 @@ default:
       name: series.title
       label: Series title/volume
       type: Text
-      element_class: "sticky"
-      element_wrapper_class: "col-md-10"
-      label_class: "col-md-2"
+      #element_class: "sticky"
+      #element_wrapper_class: "col-md-10"
+      #label_class: "col-md-2"
       element_attr:
         placeholder: "Series Title, e.g. Lecture Notes in Computer Science"
 
@@ -106,9 +91,9 @@ default:
       label: Series volume
       type: Text
       do_label: 0
-      element_class: "sticky"
-      element_wrapper_class: "col-md-10 col-md-offset-2"
-      label_class: "col-md-2"
+      #element_class: "sticky"
+      #element_wrapper_class: "col-md-10 col-md-offset-2"
+      #label_class: "col-md-2"
       element_attr:
         placeholder: "Volume, e.g. 3"
 
@@ -118,7 +103,7 @@ default:
       #label not shown?
       label: "Publication Identifier"
       init_contains:
-        element_wrapper_class: "form-inline col-md-offset-2 col-md-10"
+        #element_wrapper_class: "form-inline col-md-offset-2 col-md-10"
         tags:
           before_element_inside_div: |
             <div class="input-group sticky">
@@ -136,8 +121,8 @@ default:
       name: publication_identifier.type
       type: Select
       do_label: 0
-      element_class: "sticky"
-      element_wrapper_class: "col-md-5"
+      #element_class: "sticky"
+      #element_wrapper_class: "col-md-5"
       options:
         - label: eISBN
           value: eisbn
@@ -151,8 +136,8 @@ default:
       name: publication_identifier.value
       type: Text
       do_label: 0
-      element_class: "sticky"
-      element_wrapper_class: "col-md-5"
+      #element_class: "sticky"
+      #element_wrapper_class: "col-md-5"
       element_attr:
         placeholder: "e.g. select (e)ISBN or (e)ISSN and enter it here"
 
@@ -162,16 +147,13 @@ default:
       default: submitted
       options:
         - label: Unpublished
-          value: unpublished#
+          value: unpublished
         - label: Draft
-          vale: draft
+          value: draft
         - label: Submitted
           value: submitted
         - label: Accepted
           value: accepted
-      element_class: "sticky selectpicker"
-      element_wrapper_class: "col-md-10"
-      label_class: "col-md-2"
 
     - id: language
       name: language
@@ -187,14 +169,10 @@ default:
           value: english
         - label: German
           value: german
-      element_class: "sticky selectpicker"
-      element_wrapper_class: "col-md-10"
-      label_class: "col-md-2"
 
     - id: submit
       name: submit
       type: Submit
       value: "save"
-      element_wrapper_class: "col-md-offset-2"
       element_attr:
         class: "btn btn-success"
