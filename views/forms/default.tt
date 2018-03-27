@@ -9,6 +9,7 @@
 </div>
 
 [% form.render %]
+
 [% IF request.method == "POST" %]
   <pre>
   [% USE JSON.Escape( pretty = 1 ) %]
@@ -27,7 +28,7 @@
       var re = /(\d+)/;
       var form_group = $(this).closest(".form-group");
       var cloned_fg = form_group.clone();
-      var inputs = cloned_fg.find("input");
+      var inputs = cloned_fg.find("input,select");
       for ( var i = 0; i < inputs.size(); i++ ) {
 
         var input = inputs.get( i );
@@ -42,8 +43,14 @@
           $(input).attr("name",name);
 
         }
+        else {
+
+          console.log("no matches found");
+
+        }
 
       }
+      //TODO: fix in css
       //cloned_fg.find("label").css({ visibility: "hidden" });
       cloned_fg.insertAfter( form_group );
 

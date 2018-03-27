@@ -47,7 +47,7 @@ sub get_form {
         action => uri_for(request->path_info)->as_string(),
         method => "POST",
         field_list => $config->{field_list},
-        widget_wrapper => "Bootstrap3",
+        widget_wrapper => "LibreCat",
         form_element_class => ["form-horizontal"],
         is_html5 => 1,
         layout_classes => $config->{layout_classes} // +{}

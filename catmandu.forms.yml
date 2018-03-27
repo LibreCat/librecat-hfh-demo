@@ -8,9 +8,6 @@ default:
       label: "Publication Type"
       type: "Select"
       required: 1
-      element_wrapper_class: "col-md-10"
-      element_class: "sticky selectpicker"
-      label_class: "col-md-2"
       options:
         - label: Book
           value: book
@@ -27,27 +24,20 @@ default:
       type: "Pattern"
       regex: "^10.\\d{4,9}\\/[-._;()\\/:A-Za-z0-9]+$"
       required: 0
-      element_wrapper_class: "col-md-10"
-      element_class: "sticky"
-      label_class: "col-md-2"
       element_attr:
         placeholder: "e.g. 10.4119/xyz/2695161"
     - id: department
       name: department
       type: Repeatable
       add_extra: 1
-      init_contains:
-        element_wrapper_class: "form-inline col-md-offset-2 col-md-10"
 
     - id: department.contains
       name: department.contains
       label: Department
       type: Text
-      element_class: "sticky department"
+      element_class: "department"
       element_attr:
         placeholder: "Start typing, or use (arrow down) to choose a department from the list."
-      element_wrapper_class: "col-md-10"
-      label_class: "col-md-2"
       tags:
         before_element_inside_div: |
           <div class="input-group sticky">
@@ -64,15 +54,12 @@ default:
     - id: title
       name: title
       label: "Title"
-      #not working..
-      label_after: |
-        <span class="starMandatory"></span>
+      tags:
+        label_after: |
+          <span class="starMandatory"></span>
 
       type: Text
       required: 1
-      element_class: "sticky"
-      element_wrapper_class: "col-md-10"
-      label_class: "col-md-2"
       element_attr:
         placeholder: "e.g. Handbook of eBook Publishing"
 
@@ -81,9 +68,7 @@ default:
       label: "Publishing Year"
       type: Integer
       range_start: 1900
-      element_class: "sticky"
       element_wrapper_class: "col-md-3"
-      label_class: "col-md-2"
       element_attr:
         placeholder: "e.g. 1900"
 
@@ -93,11 +78,8 @@ default:
 
     - id: series.title
       name: series.title
-      label: Series title/volume
+      label: Series title
       type: Text
-      element_class: "sticky"
-      element_wrapper_class: "col-md-10"
-      label_class: "col-md-2"
       element_attr:
         placeholder: "Series Title, e.g. Lecture Notes in Computer Science"
 
@@ -105,20 +87,18 @@ default:
       name: series.volume
       label: Series volume
       type: Text
-      do_label: 0
-      element_class: "sticky"
-      element_wrapper_class: "col-md-10 col-md-offset-2"
-      label_class: "col-md-2"
       element_attr:
         placeholder: "Volume, e.g. 3"
 
     - id: publication_identifier
       name: publication_identifier
       type: Repeatable
-      #label not shown?
       label: "Publication Identifier"
+      #label not shown when do_label is not set..
+      #TODO: label element is shown ABOVE the form-group????
+      do_label: 1
       init_contains:
-        element_wrapper_class: "form-inline col-md-offset-2 col-md-10"
+        element_wrapper_class: "col-md-offset-2 col-md-10"
         tags:
           before_element_inside_div: |
             <div class="input-group sticky">
@@ -136,8 +116,9 @@ default:
       name: publication_identifier.type
       type: Select
       do_label: 0
-      element_class: "sticky"
-      element_wrapper_class: "col-md-5"
+      do_wrapper: 0
+      #more than one form-control inside an input-group is not supported, so we need to reset the width
+      element_class: "form-control-identifier-type"
       options:
         - label: eISBN
           value: eisbn
@@ -151,10 +132,53 @@ default:
       name: publication_identifier.value
       type: Text
       do_label: 0
-      element_class: "sticky"
-      element_wrapper_class: "col-md-5"
+      do_wrapper: 0
+      #more than one form-control inside an input-group is not supported, so we need to reset the width
+      element_class: "form-control-identifier-value"
       element_attr:
         placeholder: "e.g. select (e)ISBN or (e)ISSN and enter it here"
+
+    - id: editor
+      name: editor
+      type: Repeatable
+      label: "Editor"
+      #label not shown when do_label is not set..
+      #TODO: label element is shown ABOVE the form-group????
+      do_label: 1
+      init_contains:
+        element_wrapper_class: "col-md-offset-2 col-md-10"
+        tags:
+          before_element_inside_div: |
+            <div class="input-group sticky">
+
+          after_element: |
+            <div class="input-group-addon add-repeatable">
+              <span class="fa fa-plus"></span>
+            </div>
+            <div class="input-group-addon remove-repeatable">
+              <span class="fa fa-minus"></span>
+            </div>
+            </div>
+
+    - id: editor.first_name
+      name: editor.first_name
+      type: Text
+      do_label: 0
+      do_wrapper: 0
+      element_attr:
+        placeholder: "e.g. John"
+      tags:
+        input_prepend: "First name"
+
+    - id: editor.last_name
+      name: editor.last_name
+      type: Text
+      do_label: 0
+      do_wrapper: 0
+      element_attr:
+        placeholder: "e.g. Appleseed"
+      tags:
+        input_prepend: "Last name"
 
     - id: status
       name: status
@@ -164,14 +188,11 @@ default:
         - label: Unpublished
           value: unpublished#
         - label: Draft
-          vale: draft
+          value: draft
         - label: Submitted
           value: submitted
         - label: Accepted
           value: accepted
-      element_class: "sticky selectpicker"
-      element_wrapper_class: "col-md-10"
-      label_class: "col-md-2"
 
     - id: language
       name: language
@@ -187,9 +208,45 @@ default:
           value: english
         - label: German
           value: german
-      element_class: "sticky selectpicker"
-      element_wrapper_class: "col-md-10"
-      label_class: "col-md-2"
+
+    - id: jel
+      name: jel
+      type: Repeatable
+      add_extra: 1
+      init_contains:
+        element_wrapper_class: "form-inline col-md-offset-2 col-md-10"
+
+    - id: jel.contains
+      name: jel.contains
+      label: JEL Classification
+      type: Select
+      element_class: "jel"
+      element_attr:
+        placeholder: "Start typing, or use (arrow down) to choose a department from the list."
+#      tags:
+#        before_element_inside_div: |
+#          <div class="input-group sticky">
+#
+#        after_element: |
+#          <div class="input-group-addon add-repeatable">
+#            <span class="fa fa-plus"></span>
+#          </div>
+#          <div class="input-group-addon remove-repeatable">
+#            <span class="fa fa-minus"></span>
+#          </div>
+#          </div>
+
+      empty_select: "-- Select JEL --"
+      #limited to one level of groups
+      options:
+        - group: "A - General Economics and Teaching"
+          options:
+            - label: "A - General Economics and Teaching"
+              value: "A"
+        - group: "A1 - General Economics"
+          options:
+            - label: "A1 - General Economics"
+              value: "A1"
 
     - id: submit
       name: submit
@@ -198,3 +255,10 @@ default:
       element_wrapper_class: "col-md-offset-2"
       element_attr:
         class: "btn btn-success"
+      tags:
+        before_element_inside_div: |
+          <div class="btn-group">
+
+        after_element: |
+          <a class="btn btn-warning" href="#">cancel</a>
+          </div>

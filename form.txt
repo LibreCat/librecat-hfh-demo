@@ -10,3 +10,5 @@ http://search.cpan.org/~gshank/HTML-FormHandler-0.40066/lib/HTML/FormHandler/Man
   use templates for everything
 
   cf. http://cpansearch.perl.org/src/GSHANK/HTML-FormHandler-0.40068/share/templates/
+
+http://search.cpan.org/~gshank/HTML-FormHandler-0.40066/lib/HTML/FormHandler/Manual/RenderingCookbook.pod
