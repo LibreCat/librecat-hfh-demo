@@ -18,14 +18,25 @@ sub add_standard_element_wrapper_classes {
     my ( $self, $result, $class ) = @_;
 
     if ( not any { $_ =~ /^col\-/ } @$class ) {
-        push @$class, "col-md-10";
+        if ( !( $self->parent->has_flag( "is_repeatable") ) && !( $self->parent->has_flag( "is_compound") ) ) {
+
+            push @$class, "col-md-10";
+        }
+        else {
+
+            push @$class, "col-md-12";
+
+        }
     }
     if (
         ( ! $self->do_label || $self->type_attr eq 'checkbox' ) &&
-         not any { $_ =~ /^col\-.*offset/ } @$class
+         (not any { $_ =~ /^col\-.*offset/ } @$class) &&
+         !( $self->parent->has_flag( "is_repeatable") ) &&
+         !( $self->parent->has_flag( "is_compound") )
     ) {
         push @$class, "col-md-offset-2";
     }
+
 }
 sub add_standard_element_classes {
     my ( $self, $result, $class ) = @_;

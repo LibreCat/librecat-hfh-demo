@@ -26,10 +26,15 @@ default:
       required: 0
       element_attr:
         placeholder: "e.g. 10.4119/xyz/2695161"
+
+    #do_wrapper and do_label are set to 0 by default. lib/App.pm sets these to 1
+    #lib/App.pm also sets do_label to 0 for all subfields
     - id: department
       name: department
+      label: Department
       type: Repeatable
       add_extra: 1
+      num_when_empty: 2
 
     - id: department.contains
       name: department.contains
@@ -94,11 +99,7 @@ default:
       name: publication_identifier
       type: Repeatable
       label: "Publication Identifier"
-      #label not shown when do_label is not set..
-      #TODO: label element is shown ABOVE the form-group????
-      do_label: 1
       init_contains:
-        element_wrapper_class: "col-md-offset-2 col-md-10"
         tags:
           before_element_inside_div: |
             <div class="input-group sticky">
@@ -115,7 +116,6 @@ default:
     - id: publication_identifier.type
       name: publication_identifier.type
       type: Select
-      do_label: 0
       do_wrapper: 0
       #more than one form-control inside an input-group is not supported, so we need to reset the width
       element_class: "form-control-identifier-type"
@@ -131,7 +131,6 @@ default:
     - id: publication_identifier.value
       name: publication_identifier.value
       type: Text
-      do_label: 0
       do_wrapper: 0
       #more than one form-control inside an input-group is not supported, so we need to reset the width
       element_class: "form-control-identifier-value"
@@ -142,11 +141,7 @@ default:
       name: editor
       type: Repeatable
       label: "Editor"
-      #label not shown when do_label is not set..
-      #TODO: label element is shown ABOVE the form-group????
-      do_label: 1
       init_contains:
-        element_wrapper_class: "col-md-offset-2 col-md-10"
         tags:
           before_element_inside_div: |
             <div class="input-group sticky">
@@ -163,7 +158,6 @@ default:
     - id: editor.first_name
       name: editor.first_name
       type: Text
-      do_label: 0
       do_wrapper: 0
       element_attr:
         placeholder: "e.g. John"
@@ -173,7 +167,6 @@ default:
     - id: editor.last_name
       name: editor.last_name
       type: Text
-      do_label: 0
       do_wrapper: 0
       element_attr:
         placeholder: "e.g. Appleseed"
@@ -211,33 +204,17 @@ default:
 
     - id: jel
       name: jel
+      label: "JEL Classification"
       type: Repeatable
       add_extra: 1
-      init_contains:
-        element_wrapper_class: "form-inline col-md-offset-2 col-md-10"
 
     - id: jel.contains
       name: jel.contains
-      label: JEL Classification
       type: Select
       element_class: "jel"
       element_attr:
         placeholder: "Start typing, or use (arrow down) to choose a department from the list."
-#      tags:
-#        before_element_inside_div: |
-#          <div class="input-group sticky">
-#
-#        after_element: |
-#          <div class="input-group-addon add-repeatable">
-#            <span class="fa fa-plus"></span>
-#          </div>
-#          <div class="input-group-addon remove-repeatable">
-#            <span class="fa fa-minus"></span>
-#          </div>
-#          </div>
-
       empty_select: "-- Select JEL --"
-      #limited to one level of groups
       options:
         - group: "A - General Economics and Teaching"
           options:

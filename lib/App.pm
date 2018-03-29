@@ -3,7 +3,7 @@ use Catmandu::Sane;
 use Catmandu::Util qw(:is);
 use Catmandu;
 use Dancer qw(:syntax);
-use HTML::FormHandler;
+use LibreCat::Form;
 
 hook before_template_render => sub {
   my $tokens = $_[0];
@@ -43,6 +43,22 @@ sub get_form {
 
     is_array_ref($config->{field_list}) || return;
 
+    for my $field ( @{ $config->{field_list} } ) {
+
+        if ( $field->{type} eq "Repeatable" || $field->{type} eq "Compound" ) {
+
+            $field->{do_wrapper} = 1;
+            $field->{do_label} = 1;
+
+        }
+        elsif ( $field->{name} =~ /\./o ) {
+
+            $field->{do_label} = 0;
+
+        }
+
+    }
+
     my %args = (
         action => uri_for(request->path_info)->as_string(),
         method => "POST",
@@ -53,7 +69,7 @@ sub get_form {
         layout_classes => $config->{layout_classes} // +{}
     );
 
-    HTML::FormHandler->new( %args );
+    LibreCat::Form->new( %args );
 
 }
 
