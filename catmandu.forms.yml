@@ -147,6 +147,21 @@ default:
         - label: Accepted
           value: accepted
 
+    - id: status2
+      name: status2
+      type: Select
+      default: submitted
+      widget: RadioGroup
+      options:
+        - label: Unpublished
+          value: unpublished#
+        - label: Draft
+          value: draft
+        - label: Submitted
+          value: submitted
+        - label: Accepted
+          value: accepted
+
     - id: language
       name: language
       label: Language
@@ -178,6 +193,15 @@ default:
           options:
             - label: "A1 - General Economics"
               value: "A1"
+
+    - id: accept
+      name: accept
+      label:  "accept terms"
+      type: Checkbox
+      checkbox_value: accepted
+      input_without_param: "true"
+      default: 0
+      required: 1
 
     - id: submit
       name: submit
