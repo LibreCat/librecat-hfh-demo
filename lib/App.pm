@@ -43,29 +43,9 @@ sub get_form {
 
     is_array_ref($config->{field_list}) || return;
 
-    for my $field ( @{ $config->{field_list} } ) {
-
-        if ( $field->{type} eq "Repeatable" || $field->{type} eq "Compound" ) {
-
-            $field->{do_wrapper} = 1;
-            $field->{do_label} = 1;
-
-        }
-        elsif ( $field->{name} =~ /\./o ) {
-
-            $field->{do_label} = 0;
-
-        }
-
-    }
-
     my %args = (
         action => uri_for(request->path_info)->as_string(),
-        method => "POST",
         field_list => $config->{field_list},
-        widget_wrapper => "LibreCat",
-        form_element_class => ["form-horizontal"],
-        is_html5 => 1,
         layout_classes => $config->{layout_classes} // +{}
     );
 

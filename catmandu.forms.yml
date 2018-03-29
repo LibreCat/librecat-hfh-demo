@@ -43,26 +43,10 @@ default:
       element_class: "department"
       element_attr:
         placeholder: "Start typing, or use (arrow down) to choose a department from the list."
-      tags:
-        before_element_inside_div: |
-          <div class="input-group sticky">
-
-        after_element: |
-          <div class="input-group-addon add-repeatable">
-            <span class="fa fa-plus"></span>
-          </div>
-          <div class="input-group-addon remove-repeatable">
-            <span class="fa fa-minus"></span>
-          </div>
-          </div>
 
     - id: title
       name: title
       label: "Title"
-      tags:
-        label_after: |
-          <span class="starMandatory"></span>
-
       type: Text
       required: 1
       element_attr:
@@ -85,6 +69,7 @@ default:
       name: series.title
       label: Series title
       type: Text
+      wrapper_class: "col-md-6"
       element_attr:
         placeholder: "Series Title, e.g. Lecture Notes in Computer Science"
 
@@ -92,6 +77,7 @@ default:
       name: series.volume
       label: Series volume
       type: Text
+      wrapper_class: "col-md-4"
       element_attr:
         placeholder: "Volume, e.g. 3"
 
@@ -99,19 +85,6 @@ default:
       name: publication_identifier
       type: Repeatable
       label: "Publication Identifier"
-      init_contains:
-        tags:
-          before_element_inside_div: |
-            <div class="input-group sticky">
-
-          after_element: |
-            <div class="input-group-addon add-repeatable">
-              <span class="fa fa-plus"></span>
-            </div>
-            <div class="input-group-addon remove-repeatable">
-              <span class="fa fa-minus"></span>
-            </div>
-            </div>
 
     - id: publication_identifier.type
       name: publication_identifier.type
@@ -141,19 +114,6 @@ default:
       name: editor
       type: Repeatable
       label: "Editor"
-      init_contains:
-        tags:
-          before_element_inside_div: |
-            <div class="input-group sticky">
-
-          after_element: |
-            <div class="input-group-addon add-repeatable">
-              <span class="fa fa-plus"></span>
-            </div>
-            <div class="input-group-addon remove-repeatable">
-              <span class="fa fa-minus"></span>
-            </div>
-            </div>
 
     - id: editor.first_name
       name: editor.first_name
@@ -204,16 +164,10 @@ default:
 
     - id: jel
       name: jel
-      label: "JEL Classification"
-      type: Repeatable
-      add_extra: 1
-
-    - id: jel.contains
-      name: jel.contains
       type: Select
+      label: "JEL Classification"
+      multiple: true
       element_class: "jel"
-      element_attr:
-        placeholder: "Start typing, or use (arrow down) to choose a department from the list."
       empty_select: "-- Select JEL --"
       options:
         - group: "A - General Economics and Teaching"
