@@ -669,6 +669,21 @@ DISTRIBUTIONS
       strict 0
       vars 0
       warnings 0
+  Dancer-Plugin-Lexicon-0.06
+    pathname: D/DR/DRTECH/Dancer-Plugin-Lexicon-0.06.tar.gz
+    provides:
+      Dancer::Plugin::Lexicon 0.06
+    requirements:
+      Dancer 0
+      Dancer::Plugin 0
+      ExtUtils::MakeMaker 6.30
+      File::Spec::Functions 0
+      I18N::LangTags 0
+      I18N::LangTags::Detect 0
+      I18N::LangTags::List 0
+      Package::Stash 0
+      strict 0
+      warnings 0
   Dancer-Session-PSGI-0.01
     pathname: F/FR/FRANCKC/Dancer-Session-PSGI-0.01.tar.gz
     provides:
@@ -2063,6 +2078,34 @@ DISTRIBUTIONS
       IPC::Cmd 0
       XSLoader 0.22
       base 0
+  Locale-Maketext-Lexicon-1.00
+    pathname: D/DR/DRTECH/Locale-Maketext-Lexicon-1.00.tar.gz
+    provides:
+      Locale::Maketext::Extract 1.00
+      Locale::Maketext::Extract::Plugin::Base 1.00
+      Locale::Maketext::Extract::Plugin::FormFu 1.00
+      Locale::Maketext::Extract::Plugin::FormFu::Extractor 1.00
+      Locale::Maketext::Extract::Plugin::Generic 1.00
+      Locale::Maketext::Extract::Plugin::Haml 1.00
+      Locale::Maketext::Extract::Plugin::Mason 1.00
+      Locale::Maketext::Extract::Plugin::PPI 1.00
+      Locale::Maketext::Extract::Plugin::Perl 1.00
+      Locale::Maketext::Extract::Plugin::TT2 1.00
+      Locale::Maketext::Extract::Plugin::TT2::Directive 1.00
+      Locale::Maketext::Extract::Plugin::TT2::Parser 1.00
+      Locale::Maketext::Extract::Plugin::TextTemplate 1.00
+      Locale::Maketext::Extract::Plugin::TextTemplate::Parser 1.00
+      Locale::Maketext::Extract::Plugin::YAML 1.00
+      Locale::Maketext::Extract::Plugin::YAML::Extractor 1.00
+      Locale::Maketext::Extract::Run 1.00
+      Locale::Maketext::Lexicon 1.00
+      Locale::Maketext::Lexicon::Auto 1.00
+      Locale::Maketext::Lexicon::Gettext 1.00
+      Locale::Maketext::Lexicon::Msgcat 1.00
+      Locale::Maketext::Lexicon::Tie 1.00
+    requirements:
+      ExtUtils::MakeMaker 6.30
+      Locale::Maketext 1.17
   Log-Any-1.705
     pathname: P/PR/PREACTION/Log-Any-1.705.tar.gz
     provides:

@@ -22,7 +22,7 @@ sub add_standard_element_wrapper_classes {
 
             push @$class, "col-md-10";
         }
-        else {
+        elsif ( $self->parent->has_flag( "is_repeatable") ) {
 
             push @$class, "col-md-12";
 

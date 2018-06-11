@@ -41,7 +41,7 @@ has "+widget_name_space" => (
 
 array reference of field definitions.
 
-a trigger adds some default to every field definition:
+a trigger adds some defaults to every field definition:
 
 * field with type "Repeatable":
 
@@ -137,7 +137,24 @@ EOF
 
         }
 
+        #match possible subclasses
+        if ( $field->{type} =~ /Upload/o ) {
+
+            $self->enctype( "multipart/form-data" );
+
+        }
+
     }
+
+}
+sub validate_editor {
+
+    my ( $self, $field ) = @_;
+
+}
+sub validate_title {
+
+    my ( $self, $field ) = @_;
 
 }
 

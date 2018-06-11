@@ -14,3 +14,4 @@ requires 'Template','2.27';
 requires 'Catmandu','1.09';
 requires 'LWP::Protocol::https';
 requires 'Template::Plugin::JSON::Escape';
+requires 'Clone';

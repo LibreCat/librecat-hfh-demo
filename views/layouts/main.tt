@@ -10,6 +10,10 @@
     <script type="text/javascript" src="[% uri_base _ '/js/jquery.min.js' %]"></script>
     <script type="text/javascript" src="[% uri_base _ '/js/bootstrap.min.js' %]"></script>
     <script type="text/javascript" src="[% uri_base _ '/js/bootstrap-select.min.js' %]"></script>
+    <script type="text/javascript" src="[% uri_base _ '/js/dropzone.min.js' %]"></script>
+    <script type="text/javascript">
+      Dropzone.autoDiscover = false;
+    </script>
   </head>
   <body>
     <!-- BEGIN navbar.tt -->

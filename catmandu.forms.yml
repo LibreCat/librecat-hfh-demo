@@ -26,6 +26,8 @@ default:
       required: 0
       element_attr:
         placeholder: "e.g. 10.4119/xyz/2695161"
+      messages:
+        invalid_pattern: "is not a valid DOI"
 
     #do_wrapper and do_label are set to 0 by default. lib/App.pm sets these to 1
     #lib/App.pm also sets do_label to 0 for all subfields
@@ -36,8 +38,7 @@ default:
       add_extra: 1
       num_when_empty: 2
 
-    - id: department.contains
-      name: department.contains
+    - name: department.contains
       label: Department
       type: Text
       element_class: "department"
@@ -64,6 +65,7 @@ default:
     - id: series
       name: series
       type: Compound
+      required: 1
 
     - id: series.title
       name: series.title
@@ -114,6 +116,7 @@ default:
       name: editor
       type: Repeatable
       label: "Editor"
+      required: 1
 
     - id: editor.first_name
       name: editor.first_name
@@ -139,7 +142,7 @@ default:
       default: submitted
       options:
         - label: Unpublished
-          value: unpublished#
+          value: unpublished
         - label: Draft
           value: draft
         - label: Submitted
@@ -154,7 +157,7 @@ default:
       widget: RadioGroup
       options:
         - label: Unpublished
-          value: unpublished#
+          value: unpublished
         - label: Draft
           value: draft
         - label: Submitted
@@ -193,6 +196,22 @@ default:
           options:
             - label: "A1 - General Economics"
               value: "A1"
+
+#    - id: files
+#      name: files
+#      label: Files
+#      type: Repeatable
+#      add_extra: 1
+#      num_when_empty: 2
+#
+#    - name: "files.contains"
+#      label: Files
+#      type: Upload
+#      min_size: 1000
+#      max_size: 1000000000
+#      element_class: "files"
+#      element_attr:
+#        placeholder: "browse.."
 
     - id: accept
       name: accept

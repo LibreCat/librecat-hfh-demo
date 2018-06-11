@@ -12,3 +12,26 @@ http://search.cpan.org/~gshank/HTML-FormHandler-0.40066/lib/HTML/FormHandler/Man
   cf. http://cpansearch.perl.org/src/GSHANK/HTML-FormHandler-0.40068/share/templates/
 
 http://search.cpan.org/~gshank/HTML-FormHandler-0.40066/lib/HTML/FormHandler/Manual/RenderingCookbook.pod
+
+DropZone integration with normal form (i.e. no auto upload):
+
+  https://stackoverflow.com/a/35275260
+
+    it works, but a bit crappy:
+
+    * set uploadUrl toe the same url as the action of the form
+    * set processQueue to false
+    * catch "submit", and collect data from the form
+    * upload start, along with form data
+
+    when there are multiple dropzones, this is done more than once..
+
+  https://github.com/enyo/dropzone/wiki/Combine-normal-form-with-Dropzone
+
+http://plugins.krajee.com/file-krajee-explorer-demo#krajee-explorer-2
+http://plugins.krajee.com/file-krajee-explorer-demo#krajee-explorer-3
+
+
+Nested fields:
+
+  https://github.com/gshank/html-formhandler/blob/master/t/repeatable/nested.t

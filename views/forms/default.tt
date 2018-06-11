@@ -9,11 +9,11 @@
 </div>
 
 [% form.render %]
-
 [% IF request.method == "POST" %]
+  [% fif = filter_uploads(form.fif) %]
   <pre>
   [% USE JSON.Escape( pretty = 1 ) %]
-  [% form.fif.json %]
+  [% fif.json %]
   </pre>
 [% END %]
 

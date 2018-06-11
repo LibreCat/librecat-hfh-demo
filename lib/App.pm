@@ -4,11 +4,13 @@ use Catmandu::Util qw(:is);
 use Catmandu;
 use Dancer qw(:syntax);
 use LibreCat::Form;
+use Clone;
 
 hook before_template_render => sub {
   my $tokens = $_[0];
   $tokens->{uri_base} = request->uri_base();
   $tokens->{path_info} = request->path_info();
+  $tokens->{filter_uploads} = \&filter_uploads;
 };
 
 
@@ -24,6 +26,7 @@ post "/forms/:key" => sub {
 
     my $form = get_form();
     my $params = params();
+    $params = { %$params, %{ request->uploads() } };
 
     my $result = $form->run( params => $params );
 
@@ -51,6 +54,23 @@ sub get_form {
 
     LibreCat::Form->new( %args );
 
+}
+
+sub filter_uploads {
+
+    my $params = Clone::clone($_[0]);
+
+    for my $key ( keys %$params ) {
+
+        if ( ref( $params->{$key} ) eq "Dancer::Request::Upload" ) {
+
+            $params->{$key} = $params->{$key}->filename();
+
+        }
+
+    }
+
+    $params;
 }
 
 
