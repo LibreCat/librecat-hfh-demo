@@ -1,7 +1,7 @@
 _prefix:
   forms:
 
-default:
+book:
   field_list:
     - id: publication_type
       name: publication_type
@@ -197,21 +197,19 @@ default:
             - label: "A1 - General Economics"
               value: "A1"
 
-#    - id: files
-#      name: files
-#      label: Files
-#      type: Repeatable
-#      add_extra: 1
-#      num_when_empty: 2
-#
-#    - name: "files.contains"
-#      label: Files
-#      type: Upload
-#      min_size: 1000
-#      max_size: 1000000000
-#      element_class: "files"
-#      element_attr:
-#        placeholder: "browse.."
+    - id: uploads
+      name: uploads
+      label: "Files"
+      type: DropZone
+      min_size: 1000
+      max_size: 1000000000
+      url: "/upload"
+      accept:
+        - image/jpeg
+        - image/tiff
+        - text/plain
+      element_attr:
+        class: "alert alert-warning col-md-12"
 
     - id: accept
       name: accept

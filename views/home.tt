@@ -1,0 +1,10 @@
+<h2>Available forms</h2>
+<ul>
+[% FOR key IN catmandu_conf.forms.keys.sort %]
+
+  <li>
+    <a href="[% uri_base %]/forms/[% key | uri %]">[% key %]</a>
+  </li>
+
+[% END %]
+</ul>

@@ -1,0 +1,14 @@
+_prefix:
+  filestore:
+
+tmp:
+  package: Simple
+  options:
+    root: data/tmp
+    uuid: 1
+
+default:
+  package: Simple
+  options:
+    root: data/files
+    uuid: 1

@@ -18,3 +18,5 @@ nytprof.out
 log4perl.conf
 test/
 tmp/*
+data/tmp
+data/files

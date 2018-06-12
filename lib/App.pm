@@ -11,22 +11,26 @@ hook before_template_render => sub {
   $tokens->{uri_base} = request->uri_base();
   $tokens->{path_info} = request->path_info();
   $tokens->{filter_uploads} = \&filter_uploads;
+  $tokens->{catmandu_conf} = Catmandu->config;
 };
 
+get "/" => sub {
 
+    template "home";
+
+};
 
 get "/forms/:key" => sub {
 
-    my $form = get_form();
+    my $form = get_form() or pass;
 
     template "forms/".param("key"),{ form => $form };
 
 };
 post "/forms/:key" => sub {
 
-    my $form = get_form();
+    my $form = get_form() or pass;
     my $params = params();
-    $params = { %$params, %{ request->uploads() } };
 
     my $result = $form->run( params => $params );
 
@@ -34,10 +38,6 @@ post "/forms/:key" => sub {
 
 };
 
-any qr{.*} => sub {
-    status 'not_found';
-    template 'not_found';
-};
 sub get_form {
 
     my $params = params();

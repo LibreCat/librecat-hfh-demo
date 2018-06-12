@@ -3,7 +3,9 @@ use Catmandu::Sane;
 use Catmandu -load => ["."];
 use Catmandu::Util qw(:is);
 use Dancer;
+use Upload;
 use App;
+use NotFound;
 use Plack::Builder;
 
 my $app = sub {

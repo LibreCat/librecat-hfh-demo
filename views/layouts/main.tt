@@ -13,6 +13,7 @@
     <script type="text/javascript" src="[% uri_base _ '/js/dropzone.min.js' %]"></script>
     <script type="text/javascript">
       Dropzone.autoDiscover = false;
+      window.app = { uri_base: "[% uri_base %]" };
     </script>
   </head>
   <body>
