@@ -43,8 +43,8 @@ book:
       messages:
         invalid_pattern: publication.doi.messages.invalid_pattern
 
-    #do_wrapper and do_label are set to 0 by default. lib/App.pm sets these to 1
-    #lib/App.pm also sets do_label to 0 for all subfields
+    #do_wrapper and do_label are set to 0 by default. LibreCat::Form sets these to 1
+    #LibreCat::Form also sets do_label to 0 for all subfields
     - id: department
       name: department
       label: publication.department.label
@@ -168,8 +168,12 @@ book:
       required: 1
       element_attr:
         placeholder: publication.editor.first_name.placeholder
+      element_class: "input-group-addon"
       tags:
-        input_prepend: "First name"
+        before_element: |
+          <span class="input-group-addon">First name</span>
+
+        #input_prepend: "First name"
         #do not show these errors inline (it messes up the layout)
         no_errors: 1
       messages:
@@ -183,7 +187,10 @@ book:
       element_attr:
         placeholder: publication.editor.last_name.placeholder
       tags:
-        input_prepend: "Last name"
+        #input_prepend: "Last name"
+        before_element: |
+          <span class="input-group-addon">Last name</span>
+
         #do not show these errors inline (it messes up the layout)
         no_errors: 1
       messages:
