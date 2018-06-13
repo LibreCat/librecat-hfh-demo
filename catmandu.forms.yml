@@ -1,11 +1,20 @@
 _prefix:
   forms:
 
+#I18n support in HTML::FormHandler:
+# 1) field label
+# 2) button "value"
+# 3) error messages (you need to find out what the source messages are..). Set "messages.$type" to a I18n key, and configure it in I18n
+
+#TODO:
+# 1) placeholder: now done in LibreCat::Form::_reset_fields
+# 2) tags like "input_append", "input_prepend" .., but should that really be done here? It can actually contain anything..
+
 book:
   field_list:
     - id: publication_type
       name: publication_type
-      label: "Publication Type"
+      label: publication.publication_type.label
       type: "Select"
       required: 1
       options:
@@ -17,81 +26,98 @@ book:
           value: book_chapter
         - label: Book Review
           value: review
+      messages:
+        required: publication.publication_type.messages.required
+        select_not_multiple: publication.publication_type.messages.select_not_multiple
+        select_invalid_value: publication.publication_type.messages.select_invalid_value
+
     - id: doi
       name: doi
-      label: "DOI"
+      label: publication.doi.label
       #custom field: see HTML::FormHandler::Field::Pattern
       type: "Pattern"
       regex: "^10.\\d{4,9}\\/[-._;()\\/:A-Za-z0-9]+$"
       required: 0
       element_attr:
-        placeholder: "e.g. 10.4119/xyz/2695161"
+        placeholder: publication.doi.placeholder
       messages:
-        invalid_pattern: "is not a valid DOI"
+        invalid_pattern: publication.doi.messages.invalid_pattern
 
     #do_wrapper and do_label are set to 0 by default. lib/App.pm sets these to 1
     #lib/App.pm also sets do_label to 0 for all subfields
     - id: department
       name: department
-      label: Department
+      label: publication.department.label
       type: Repeatable
       add_extra: 1
       num_when_empty: 2
 
     - name: department.contains
-      label: Department
       type: Text
       element_class: "department"
       element_attr:
-        placeholder: "Start typing, or use (arrow down) to choose a department from the list."
+        placeholder: publication.department.placeholder
 
     - id: title
       name: title
-      label: "Title"
+      label: publication.title.label
       type: Text
       required: 1
       element_attr:
-        placeholder: "e.g. Handbook of eBook Publishing"
+        placeholder: publication.title.placeholder
+      messages:
+        required: publication.title.messages.required
 
     - id: year
       name: year
-      label: "Publishing Year"
+      label: publication.year.label
       type: Integer
       range_start: 1900
       element_wrapper_class: "col-md-3"
       element_attr:
-        placeholder: "e.g. 1900"
+        placeholder: publication.year.placeholder
+      messages:
+        integer_needed: publication.year.messages.integer_needed
 
     - id: series
       name: series
       type: Compound
       required: 1
+      messages:
+        required: publication.series.messages.required
 
     - id: series.title
       name: series.title
-      label: Series title
+      label: publication.series.title.label
       type: Text
       wrapper_class: "col-md-6"
+      required: 1
       element_attr:
-        placeholder: "Series Title, e.g. Lecture Notes in Computer Science"
+        placeholder: publication.series.title.placeholder
+      messages:
+        required: publication.series.title.messages.required
 
     - id: series.volume
       name: series.volume
-      label: Series volume
+      label: publication.series.volume.label
       type: Text
+      required: 1
       wrapper_class: "col-md-4"
       element_attr:
-        placeholder: "Volume, e.g. 3"
+        placeholder: publication.series.volume.placeholder
+      messages:
+        required: publication.series.volume.messages.required
 
     - id: publication_identifier
       name: publication_identifier
       type: Repeatable
-      label: "Publication Identifier"
+      label: publication.publication_identifier.label
 
     - id: publication_identifier.type
       name: publication_identifier.type
       type: Select
       do_wrapper: 0
+      required: 1
       #more than one form-control inside an input-group is not supported, so we need to reset the width
       element_class: "form-control-identifier-type"
       options:
@@ -103,41 +129,69 @@ book:
           value: isbn
         - label: ISSN
           value: issn
+      messages:
+        required: publication.publication_identifier.type.messages.required
+        select_not_multiple: publication.publication_identifier.type.messages.select_not_multiple
+        select_invalid_value: publication.publication_identifier.type.messages.select_invalid_value
+      #do not show these errors inline (it messes up the layout)
+      tags:
+        no_errors: 1
+
     - id: publication_identifier.value
       name: publication_identifier.value
       type: Text
       do_wrapper: 0
+      required: 1
       #more than one form-control inside an input-group is not supported, so we need to reset the width
       element_class: "form-control-identifier-value"
       element_attr:
-        placeholder: "e.g. select (e)ISBN or (e)ISSN and enter it here"
+        placeholder: publication.publication_identifier.value.placeholder
+      messages:
+        required: publication.publication_identifier.value.messages.required
+      #do not show these errors inline (it messes up the layout)
+      tags:
+        no_errors: 1
 
     - id: editor
       name: editor
       type: Repeatable
-      label: "Editor"
+      label: publication.editor.label
       required: 1
+      messages:
+        required: publication.editor.messages.required
 
+    #TODO: locale tags
     - id: editor.first_name
       name: editor.first_name
       type: Text
       do_wrapper: 0
+      required: 1
       element_attr:
-        placeholder: "e.g. John"
+        placeholder: publication.editor.first_name.placeholder
       tags:
         input_prepend: "First name"
+        #do not show these errors inline (it messes up the layout)
+        no_errors: 1
+      messages:
+        required: publication.editor.first_name.messages.required
 
     - id: editor.last_name
       name: editor.last_name
       type: Text
       do_wrapper: 0
+      required: 1
       element_attr:
-        placeholder: "e.g. Appleseed"
+        placeholder: publication.editor.last_name.placeholder
       tags:
         input_prepend: "Last name"
+        #do not show these errors inline (it messes up the layout)
+        no_errors: 1
+      messages:
+        required: publication.editor.last_name.messages.required
 
     - id: status
       name: status
+      label: publication.status.label
       type: Select
       default: submitted
       options:
@@ -149,9 +203,14 @@ book:
           value: submitted
         - label: Accepted
           value: accepted
+      messages:
+        required: publication.status.messages.required
+        select_not_multiple: publication.status.messages.select_not_multiple
+        select_invalid_value: publication.status.messages.select_invalid_value
 
     - id: status2
       name: status2
+      label: publication.status2.label
       type: Select
       default: submitted
       widget: RadioGroup
@@ -164,10 +223,13 @@ book:
           value: submitted
         - label: Accepted
           value: accepted
+      messages:
+        select_not_multiple: publication.status2.messages.select_not_multiple
+        select_invalid_value: publication.status2.messages.select_invalid_value
 
     - id: language
       name: language
-      label: Language
+      label: publication.language.label
       type: Select
       multiple: 1
       default:
@@ -179,11 +241,13 @@ book:
           value: english
         - label: German
           value: german
+      messages:
+        select_invalid_value: publication.language.messages.select_invalid_value
 
     - id: jel
       name: jel
       type: Select
-      label: "JEL Classification"
+      label: publication.jel.label
       multiple: true
       element_class: "jel"
       empty_select: "-- Select JEL --"
@@ -196,34 +260,45 @@ book:
           options:
             - label: "A1 - General Economics"
               value: "A1"
+      messages:
+        select_invalid_value: publication.jel.messages.select_invalid_value
 
     - id: uploads
       name: uploads
-      label: "Files"
+      label: publication.uploads.label
       type: DropZone
       min_size: 1000
       max_size: 1000000000
       url: "/upload"
+      required: 1
       accept:
         - image/jpeg
         - image/tiff
         - text/plain
       element_attr:
         class: "alert alert-warning col-md-12"
+      messages:
+        required: publication.uploads.messages.required
+        upload_file_not_found: publication.uploads.messages.upload_file_not_found
+        upload_file_empty: publication.uploads.messages.upload_file_empty
+        upload_file_too_small: publication.uploads.messages.upload_file_too_small
+        upload_file_too_big: publication.uploads.messages.upload_file_too_big
+        upload_file_invalid_mimetype: publication.uploads.messages.upload_file_invalid_mimetype
 
     - id: accept
       name: accept
-      label:  "accept terms"
+      label: publication.accept.label
       type: Checkbox
-      checkbox_value: accepted
-      input_without_param: "true"
+      checkbox_value: "true"
       default: 0
       required: 1
+      messages:
+        required: publication.accept.messages.required
 
     - id: submit
       name: submit
       type: Submit
-      value: "save"
+      value: publication.submit.label
       element_wrapper_class: "col-md-offset-2"
       element_attr:
         class: "btn btn-success"

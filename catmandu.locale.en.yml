@@ -1,0 +1,98 @@
+_prefix:
+  locale:
+    en:
+
+publication:
+  publication_type:
+    label: "Publication type"
+    messages:
+      required: "Publication type is required"
+      select_not_multiple: "This field does not take multiple values"
+      select_invalid_value: "[_1] is not a valid value"
+  doi:
+    label: "DOI"
+    placeholder: "e.g. 10.4119/xyz/2695161"
+    messages:
+      invalid_pattern: "is not a valid DOI"
+  department:
+    label: "Department"
+    placeholder: "Start typing, or use (arrow down) to choose a department from the list."
+  title:
+    label: "Title"
+    placeholder: "e.g. Handbook of eBook Publishing"
+    messages:
+      required: "Title is required"
+  year:
+    label: "Publishing year"
+    placeholder: "e.g. 1900"
+  series:
+    messages:
+      required: "Series is required"
+    title:
+      label: "Series title"
+      placeholder: "Series Title, e.g. Lecture Notes in Computer Science"
+      messages:
+        required: "Series title is required"
+    volume:
+      label: "Series volume"
+      placeholder: "Volume, e.g. 3"
+      messages:
+        required: "Series volume is required"
+  publication_identifier:
+    label: "Publication identifier"
+    value:
+      placeholder: "e.g. select (e)ISBN or (e)ISSN and enter it here"
+      messages:
+        required: "Publication identifier value is required"
+    type:
+      messages:
+        required: "Publication identifier type is required"
+        select_not_multiple: "This field does not take multiple values"
+        select_invalid_value: "[_1] is not a valid value"
+  editor:
+    label: "Editor"
+    messages:
+      required: "Editor is required"
+    first_name:
+      placeholder: "e.g. John"
+      messages:
+        required: "First name of editor is required"
+    last_name:
+      placeholder: "e.g. Appleseed"
+      messages:
+        required: "Last name of editor is required"
+  status:
+    label: "Status"
+    messages:
+      required: "Status is required"
+      select_not_multiple: "This field does not take multiple values"
+      select_invalid_value: "[_1] is not a valid value"
+  status2:
+    label: "Status (v2)"
+    messages:
+      required: "Status (v2) is required"
+      select_not_multiple: "This field does not take multiple values"
+      select_invalid_value: "[_1] is not a valid value"
+  language:
+    label: "Language"
+    messages:
+      select_invalid_value: "[_1] is not a valid value"
+  jel:
+    label: "JEL Classification"
+    messages:
+      select_invalid_value: "[_1] is not a valid value"
+  uploads:
+    label: "Files"
+    messages:
+      required: "At least one file is required"
+      upload_file_not_found: "[_1] was not uploaded"
+      upload_file_empty: "[_1] is an empty file"
+      upload_file_too_small: "File [_1] is too small (< [_2] bytes)"
+      upload_file_too_big: "File [_1] is too big (> [_2] bytes)"
+      upload_file_invalid_mimetype: "File type of [_1] is not allowed"
+  accept:
+    label: "Accept terms"
+    messages:
+      required: "One must accept the terms"
+  submit:
+    label: "save"

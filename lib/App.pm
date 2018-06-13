@@ -4,7 +4,7 @@ use Catmandu::Util qw(:is);
 use Catmandu;
 use Dancer qw(:syntax);
 use LibreCat::Form;
-use Clone;
+use URI::Escape qw(uri_escape);
 
 hook before_template_render => sub {
   my $tokens = $_[0];
@@ -21,37 +21,23 @@ get "/" => sub {
 
 get "/forms/:key" => sub {
 
-    my $form = get_form() or pass;
+    my $key = params("route")->{key};
+    my $form = LibreCat::Form->load( $key, "en" ) or pass;
 
-    template "forms/".param("key"),{ form => $form };
+    template "forms/".uri_escape($key),{ form => $form };
 
 };
+
 post "/forms/:key" => sub {
 
-    my $form = get_form() or pass;
-    my $params = params();
+    my $key = params("route")->{key};
+    my $form = LibreCat::Form->load( $key, "en" ) or pass;
 
+    my $params = params("body");
     my $result = $form->run( params => $params );
 
-    template "forms/".param("key"),{ form => $result };
+    template "forms/".uri_escape($key),{ form => $result };
 
 };
-
-sub get_form {
-
-    my $params = params();
-
-    my $config = Catmandu->config->{forms}->{ $params->{key} };
-
-    is_array_ref($config->{field_list}) || return;
-
-    my %args = (
-        field_list => $config->{field_list},
-        layout_classes => $config->{layout_classes} // +{}
-    );
-
-    LibreCat::Form->new( %args );
-
-}
 
 1;

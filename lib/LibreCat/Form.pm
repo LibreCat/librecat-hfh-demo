@@ -1,5 +1,9 @@
 package LibreCat::Form;
 use Catmandu::Sane;
+use Catmandu::Util qw(:is);
+use Catmandu;
+use LibreCat::I18n;
+use Clone qw();
 use HTML::FormHandler::Moose;
 
 extends qw(HTML::FormHandler);
@@ -82,6 +86,10 @@ subclass of widget_wrapper Bootstrap3.
 Only adds some default class attributes, which can also be done here
 in _reset_field_list..
 
+=head1 Important notes
+
+* FormHandler by default uses empty params as a signal that the form has not actually been posted, and so will not attempt to validate a form with empty params. Most of the time this works OK, but if you have a small form with only the controls that do not return a post parameter if unselected (checkboxes and select lists), then the form will not be validated if everything is unselected. For this case you can either add a hidden field as an 'indicator', or use the 'posted' flag.
+
 =cut
 has "+widget_wrapper" => ( default => sub { "LibreCat" } );
 has "+is_html5" => ( default => sub { 1 } );
@@ -144,6 +152,12 @@ EOF
 
         }
 
+        if( is_hash_ref( $field->{element_attr} ) && is_string( $field->{element_attr}->{placeholder} ) ){
+
+            $field->{element_attr}->{placeholder} = $self->_localize( $field->{element_attr}->{placeholder} );
+
+        }
+
     }
 
 }
@@ -155,6 +169,26 @@ sub validate_editor {
 sub validate_title {
 
     my ( $self, $field ) = @_;
+
+}
+
+sub load {
+
+    my ( $class, $key, $locale ) = @_;
+
+    state $language_handles = {};
+    $language_handles->{$locale} ||= LibreCat::I18N::_Handle->get_handle( $locale );
+
+    my $config = Catmandu->config->{forms}->{ $key };
+
+    return unless is_array_ref($config->{field_list});
+
+    my %args = (
+        field_list => Clone::clone( $config->{field_list} ),
+        layout_classes => $config->{layout_classes} // +{}
+    );
+
+    $class->new( %args, language_handle => $language_handles->{$locale} );
 
 }
 
