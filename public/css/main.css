@@ -4,8 +4,17 @@
 .input-group .form-control.form-control-identifier-value {
   width: 85%;
 }
+/*
+  first-child normally becomes gray
+*/
 div.input-group.sticky .input-group-addon:first-child {
   background-color: #fff;
   color: #555;
   background-image: none;
+}
+/*
+  input.input-group-addon should have centered text
+*/
+input.input-group-addon {
+  text-align: start;
 }

@@ -85,28 +85,40 @@ book:
       required: 1
       messages:
         required: publication.series.messages.required
+      tags:
+        before_element_inside_div: |
+          <div class="input-group sticky">
+
+        after_element: "</div>"
 
     - id: series.title
       name: series.title
       label: publication.series.title.label
       type: Text
-      wrapper_class: "col-md-6"
+      element_class: "input-group-addon"
+      do_wrapper: 0
       required: 1
       element_attr:
         placeholder: publication.series.title.placeholder
       messages:
         required: publication.series.title.messages.required
+      tags:
+        before_element: |
+          <span class="input-group-addon">Title</span>
 
     - id: series.volume
       name: series.volume
       label: publication.series.volume.label
       type: Text
       required: 1
-      wrapper_class: "col-md-4"
+      do_wrapper: 0
       element_attr:
         placeholder: publication.series.volume.placeholder
       messages:
         required: publication.series.volume.messages.required
+      tags:
+        before_element: |
+          <span class="input-group-addon">Volume</span>
 
     - id: publication_identifier
       name: publication_identifier
@@ -173,7 +185,6 @@ book:
         before_element: |
           <span class="input-group-addon">First name</span>
 
-        #input_prepend: "First name"
         #do not show these errors inline (it messes up the layout)
         no_errors: 1
       messages:
@@ -187,7 +198,6 @@ book:
       element_attr:
         placeholder: publication.editor.last_name.placeholder
       tags:
-        #input_prepend: "Last name"
         before_element: |
           <span class="input-group-addon">Last name</span>
 
