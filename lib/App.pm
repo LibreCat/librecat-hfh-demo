@@ -10,7 +10,6 @@ hook before_template_render => sub {
   my $tokens = $_[0];
   $tokens->{uri_base} = request->uri_base();
   $tokens->{path_info} = request->path_info();
-  $tokens->{filter_uploads} = \&filter_uploads;
   $tokens->{catmandu_conf} = Catmandu->config;
 };
 
@@ -47,7 +46,6 @@ sub get_form {
     is_array_ref($config->{field_list}) || return;
 
     my %args = (
-        action => uri_for(request->path_info)->as_string(),
         field_list => $config->{field_list},
         layout_classes => $config->{layout_classes} // +{}
     );
@@ -55,23 +53,5 @@ sub get_form {
     LibreCat::Form->new( %args );
 
 }
-
-sub filter_uploads {
-
-    my $params = Clone::clone($_[0]);
-
-    for my $key ( keys %$params ) {
-
-        if ( ref( $params->{$key} ) eq "Dancer::Request::Upload" ) {
-
-            $params->{$key} = $params->{$key}->filename();
-
-        }
-
-    }
-
-    $params;
-}
-
 
 1;
