@@ -2,7 +2,7 @@ package LibreCat::Form;
 use Catmandu::Sane;
 use Catmandu::Util qw(:is);
 use Catmandu;
-use LibreCat::I18n;
+use LibreCat::I18N;
 use Clone qw();
 use HTML::FormHandler::Moose;
 
