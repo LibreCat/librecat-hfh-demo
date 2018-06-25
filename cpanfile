@@ -1,7 +1,9 @@
 requires "perl",">=5.10.1";
+
 requires 'Carp','0';
 requires 'Moo','0';
 requires 'URI::Escape','0';
+
 #See https://github.com/gshank/html-formhandler/pull/110
 #See http://cpansearch.perl.org/src/GSHANK/HTML-FormHandler-0.40065/Changes
 requires 'HTML::FormHandler','<0.40065';
@@ -18,3 +20,4 @@ requires 'Clone';
 requires 'Business::ISBN';
 requires 'Business::ISSN';
 requires 'Catmandu::FileStore','1.10';
+requires 'Locale::Maketext::Lexicon';
