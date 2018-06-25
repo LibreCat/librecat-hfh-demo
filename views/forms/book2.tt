@@ -1,0 +1,98 @@
+<div class="page-header" id="banner">
+  <div class="row">
+    <div class="col-sm-8">
+	  <h1 class="margin-top0">Book</h1>
+    </div>
+    <div class="col-sm-4 text-right">
+    </div>
+  </div>
+</div>
+
+<form method="post" class="form-horizontal">
+
+  <div class="tab_section">
+    <h3>Details</h3>
+
+    [% form.field("publication_type").render %]
+    [% form.field("doi").render %]
+    [% form.field("department").render %]
+  </div>
+
+  <div class="tab_section">
+    <h3>Uploads</h3>
+
+    [% form.field("uploads").render_element %]
+  </div>
+
+  <div class="tab_section">
+    <h3>Additional information</h3>
+
+    [% form.field("abstract").render %]
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-offset-2">
+      <div class="btn-group">
+        <input type="submit" name="submit" id="submit" value="save" class="btn btn-success"><a class="btn btn-warning" href="#">cancel</a>
+      </div>
+    </div>
+  </div>
+
+</form>
+[% IF request.method == "POST" %]
+  <pre>
+  [% USE JSON.Escape( pretty = 1 ) %]
+  [% form.fif.json %]
+  </pre>
+[% END %]
+
+<script type="text/javascript">
+
+(function($){
+
+  $(document).ready(function(){
+
+    $(".add-repeatable").on("click",function(evt){
+
+      var re = /(\d+)/;
+      var form_group = $(this).closest(".form-group");
+      var cloned_fg = form_group.clone();
+      var inputs = cloned_fg.find("input,select");
+      for ( var i = 0; i < inputs.size(); i++ ) {
+
+        var input = inputs.get( i );
+        var name = $(input).attr("name");
+        var matches = re.exec( name );
+
+        if ( matches != null ) {
+
+          idx = parseInt( matches[0] );
+          idx++;
+          name = name.substr(0, matches["index"] ) + idx + name.substr( matches["index"] + 1 );
+          $(input).attr("name",name);
+
+        }
+        else {
+
+          console.log("no matches found");
+
+        }
+
+      }
+      //TODO: fix in css
+      //cloned_fg.find("label").css({ visibility: "hidden" });
+      cloned_fg.insertAfter( form_group );
+
+    });
+    $(".remove-repeatable").on("click",function(evt){
+
+      var form_group = $(this).closest(".form-group");
+      form_group.remove();
+
+    });
+
+  });
+
+})(jQuery);
+
+</script>

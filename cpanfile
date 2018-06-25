@@ -15,3 +15,6 @@ requires 'Catmandu','1.09';
 requires 'LWP::Protocol::https';
 requires 'Template::Plugin::JSON::Escape';
 requires 'Clone';
+requires 'Business::ISBN';
+requires 'Business::ISSN';
+requires 'Catmandu::FileStore','1.10';

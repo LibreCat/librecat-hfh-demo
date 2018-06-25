@@ -1,6 +1,6 @@
 package LibreCat::Form;
 use Catmandu::Sane;
-use Catmandu::Util qw(:is);
+use Catmandu::Util qw(:is require_package);
 use Catmandu;
 use LibreCat::I18n;
 use Clone qw();
@@ -45,35 +45,54 @@ has "+widget_name_space" => (
 
 array reference of field definitions.
 
-a trigger adds some defaults to every field definition:
-
-* field with type "Repeatable":
-
-    * do_wrapper: 1
-    * do_label: 1
-
-* field with parent Repeatable or Compound:
-
-    * do_label: 0
-
 By default compound and repeatable fields are rendered by concatenating their subfields
 
     FIELD  input    (FIELD.0)
     FIELD  input    (FIELD.1)
     TITLE  input    (TITLE)
 
-That puts every subfield on a different line.
-
 Because of this repetition, do_wrapper and do_label for compounded fields are set to 0.
 The drawback is the repetition of the label.
 
 Better solution is:
 
-* enable wrapper on field Compound/Repeatable
+* enable wrapper on field Compound/Repeatable (do_wrapper:1)
 
-* enable label on field Compound/Repeatable
+* enable label on field Compound/Repeatable (do_label:1)
 
-* disable label on subfield
+* disable label for simple repeated fields (see below)
+
+So a trigger adds some defaults to every field definition:
+
+* field with type "Repeatable":
+
+    * do_wrapper: 1
+    * do_label: 1
+
+* Simple repeated fields
+
+    * do_label: 0
+
+simple repeated fields like name[] are defined in HFH as such:
+
+    - name: name
+      type: Repeatable
+    - name: name.contains
+      type: Text
+
+HFH does this to know exactly when a field will contain an array or a single value.
+
+For structured repeated fields, the labels are shown.
+
+e.g.
+
+    - name: editor
+      type: Repeatable
+    - name: editor.first_name
+      type: Text
+    - name: editor.last_name
+      type: Text
+
 
 =cut
 has "+field_list" => (
@@ -111,29 +130,82 @@ sub _reset_field_list {
 </div>
 EOF
 
-    for my $field ( @$field_list ) {
+    my $type_cache = {};
 
-        if ( $field->{type} eq "Repeatable" || $field->{type} eq "Compound" ) {
+    for(my $i = 0; $i < scalar(@$field_list); $i++){
 
-            $field->{do_wrapper} = 1;
-            $field->{do_label} = 1;
+        my $field = $field_list->[$i];
 
-            if ( $field->{type} eq "Repeatable" || $field->{name} =~ /$/o ) {
+        $type_cache->{ $field->{type} } ||= require_package( $field->{type}, "HTML::FormHandler::Field" )->new( %$field );
+        my $obj = $type_cache->{ $field->{type} };
+        my $is_repeatable = $obj->has_flag("is_repeatable") ? 1 : 0;
+        my $is_compound = $obj->has_flag("is_compound") && !$is_repeatable ? 1 : 0;
 
-                $field->{init_contains}->{tags}->{before_element_inside_div} = $add_pre;
-                $field->{init_contains}->{tags}->{after_element} = $add_post;
+        if ( $is_repeatable || $is_compound ) {
+
+            my $do_label = exists($field->{do_label});
+            my $do_wrapper = exists($field->{do_wrapper});
+            $field->{do_wrapper} = 1 unless $do_wrapper;
+            $field->{do_label} = 1 unless $do_label;
+
+            if ( $is_repeatable ) {
+
+                $field->{init_contains}->{tags}->{before_element_inside_div} = $add_pre
+                    unless exists $field->{init_contains}->{tags}->{before_element_inside_div};
+                $field->{init_contains}->{tags}->{after_element} = $add_post
+                    unless exists $field->{init_contains}->{tags}->{after_element};
+
+            }
+
+            elsif ( $is_compound ) {
+
+
+                if ( $field->{name} =~ /\.contains$/o ) {
+
+                    $field->{do_label} = 0 unless $do_label;
+                    $field->{tags}->{before_element_inside_div} = $add_pre
+                        unless exists $field->{tags}->{before_element_inside_div};
+                    $field->{tags}->{after_element} = $add_post
+                        unless exists $field->{tags}->{after_element};
+
+                }
+                else {
+
+                    $field->{tags}->{before_element_inside_div} = qq(<div class="input-group sticky">)
+                        unless exists $field->{tags}->{before_element_inside_div};
+
+                    $field->{tags}->{after_element} = qq(</div>)
+                        unless exists $field->{tags}->{after_element};
+
+
+                }
 
             }
 
         }
         elsif ( $field->{name} =~ /\./o ) {
 
-            $field->{do_label} = 0;
 
             if ( $field->{name} =~ /\.contains$/o ) {
 
-                $field->{tags}->{before_element_inside_div} = $add_pre;
-                $field->{tags}->{after_element} = $add_post;
+                $field->{do_label} = 0 unless exists $field->{do_label};
+                $field->{tags}->{before_element_inside_div} = $add_pre
+                    unless exists $field->{tags}->{before_element_inside_div};
+                $field->{tags}->{after_element} = $add_post
+                    unless exists $field->{tags}->{after_element};
+
+            }
+            else {
+
+                $field->{do_wrapper} = 0 unless exists( $field->{do_wrapper} );
+                $field->{label_class} = "input-group-addon" unless exists $field->{label_class};
+                #skip last one list in the list..
+                $field->{element_class} = "input-group-addon"
+                    if(
+                        !exists($field->{element_class}) &&
+                        $i != scalar(@$field_list) - 1 &&
+                        $field_list->[$i + 1]->{name} =~ /\./o
+                    );
 
             }
 
@@ -141,7 +213,8 @@ EOF
 
         if ( $field->{required} ) {
 
-            $field->{tags}->{label_after} = qq(<span class="starMandatory"></span>);
+            $field->{tags}->{label_after} = qq(<span class="starMandatory"></span>)
+                unless exists $field->{tags}->{label_after};
 
         }
 
@@ -152,6 +225,7 @@ EOF
 
         }
 
+        #localize placeholder (not done by HFH)
         if( is_hash_ref( $field->{element_attr} ) && is_string( $field->{element_attr}->{placeholder} ) ){
 
             $field->{element_attr}->{placeholder} = $self->_localize( $field->{element_attr}->{placeholder} );
@@ -159,16 +233,6 @@ EOF
         }
 
     }
-
-}
-sub validate_editor {
-
-    my ( $self, $field ) = @_;
-
-}
-sub validate_title {
-
-    my ( $self, $field ) = @_;
 
 }
 
@@ -185,7 +249,6 @@ sub load {
 
     my %args = (
         field_list => Clone::clone( $config->{field_list} ),
-        layout_classes => $config->{layout_classes} // +{}
     );
 
     $class->new( %args, language_handle => $language_handles->{$locale} );

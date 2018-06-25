@@ -4,6 +4,8 @@ use Moose;
 use Moose::Util::TypeConstraints;
 use Catmandu::Util qw(:is);
 use HFH;
+use Image::ExifTool;
+use File::Spec;
 
 extends "HTML::FormHandler::Field";
 
@@ -35,6 +37,17 @@ has url => (
     isa => "Str",
     required => 1
 );
+
+has exif => (
+    is => "ro",
+    lazy => 1,
+    builder => "_build_exif",
+    init_arg => undef
+);
+
+sub _build_exif {
+    Image::ExifTool->new();
+}
 
 sub BUILD {
 
@@ -69,11 +82,14 @@ sub validate {
 
     my $accept = is_array_ref($self->accept) ? $self->accept : [];
 
+    my $fstore = HFH::file_store("tmp");
+    my $directory_index = $fstore->directory_index;
+
     for my $upload ( @$uploads ) {
 
         my($dir, $basename) = split(":",$upload->{file_id});
 
-        my $files = HFH::file_store("tmp")->index->files($dir);
+        my $files = $fstore->index->files($dir);
 
         my $file = $files->get( $basename );
 
@@ -127,21 +143,34 @@ sub validate {
 
         if ( scalar( @$accept ) > 0 ) {
 
-            my($base,$type,$subtype) = split(/\./,$basename);
-            my $mime = "$type/$subtype";
+            #my($base,$type,$subtype) = split(/\./,$basename);
+            #my $mime = "$type/$subtype";
+
+            my $real_path = File::Spec->catfile(
+                $directory_index->get( $dir )->{_path},
+                $basename
+            );
+            say STDERR "real_path for $dir:$basename => $real_path";
+            my $info = $self->exif->ImageInfo( $real_path );
+            my $mime = $info->{MIMEType};
+
             my $found = 0;
 
-            for my $a ( @$accept ) {
-                if ( $a eq $mime ) {
-                    $found = 1;
-                    last;
+            unless ( is_string( $info->{Error} ) ) {
+
+                for my $a ( @$accept ) {
+                    if ( $a eq $mime ) {
+                        $found = 1;
+                        last;
+                    }
                 }
+
             }
 
             unless($found){
 
                 my $err = $self->_localize(
-                    $self->get_message('upload_file_invalid_mime_type'),
+                    $self->get_message('upload_file_invalid_mimetype'),
                     $upload->{file_name}
                 );
                 $upload->{file_error} = $err;

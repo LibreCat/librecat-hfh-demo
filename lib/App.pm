@@ -22,7 +22,7 @@ get "/" => sub {
 get "/forms/:key" => sub {
 
     my $key = params("route")->{key};
-    my $form = LibreCat::Form->load( $key, "en" ) or pass;
+    my $form = get_form( $key, "en" ) or pass;
 
     template "forms/".uri_escape($key),{ form => $form };
 
@@ -31,13 +31,28 @@ get "/forms/:key" => sub {
 post "/forms/:key" => sub {
 
     my $key = params("route")->{key};
-    my $form = LibreCat::Form->load( $key, "en" ) or pass;
+    my $form = get_form( $key, "en" ) or pass;
 
     my $params = params("body");
-    my $result = $form->run( params => $params );
+    $form->process( params => $params );
 
-    template "forms/".uri_escape($key),{ form => $result };
+    template "forms/".uri_escape($key),{ form => $form };
 
 };
+
+sub get_form {
+
+    state $c = {};
+
+    my( $key, $lang ) = @_;
+
+    $c->{$key.$lang} ||= LibreCat::Form->load( $key, $lang );
+
+    my $form = $c->{$key.$lang};
+
+    $form->clear() if $form->validated();
+
+    $form;
+}
 
 1;

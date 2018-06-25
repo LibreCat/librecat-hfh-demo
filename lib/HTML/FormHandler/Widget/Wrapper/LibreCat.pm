@@ -9,7 +9,7 @@ with 'HTML::FormHandler::Widget::Wrapper::Bootstrap3';
 
 sub add_standard_label_classes {
     my ( $self, $result, $class ) = @_;
-    if ( not any { $_ =~ /^col\-/ } @$class ) {
+    if ( scalar(@$class) == 0 ) {
         push @$class, "col-md-2";
     }
 }

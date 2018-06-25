@@ -29,12 +29,12 @@ publication:
     messages:
       required: "Series is required"
     title:
-      label: "Series title"
+      label: "title"
       placeholder: "Series Title, e.g. Lecture Notes in Computer Science"
       messages:
         required: "Series title is required"
     volume:
-      label: "Series volume"
+      label: "volume"
       placeholder: "Volume, e.g. 3"
       messages:
         required: "Series volume is required"
@@ -49,6 +49,20 @@ publication:
         required: "Publication identifier type is required"
         select_not_multiple: "This field does not take multiple values"
         select_invalid_value: "[_1] is not a valid value"
+  isbn:
+    label: "ISBN"
+    placeholder: "978-3-16-148410-0"
+    messages:
+      required: "ISBN is required"
+      invalid_pattern: "[_1] is not a valid ISBN"
+  pubid:
+    label: "Publication identifier (v2)"
+    value:
+      placeholder: "ISBN/ISSN"
+    messages:
+      invalid_type: "type must be either 'issn' or 'isbn'"
+      invalid_value: "[_1] is not a valid [_2]"
+
   editor:
     label: "Editor"
     messages:
@@ -79,6 +93,7 @@ publication:
       select_invalid_value: "[_1] is not a valid value"
   jel:
     label: "JEL Classification"
+    empty_select: "-- Select JEL --"
     messages:
       select_invalid_value: "[_1] is not a valid value"
   uploads:
@@ -89,10 +104,17 @@ publication:
       upload_file_empty: "[_1] is an empty file"
       upload_file_too_small: "File [_1] is too small (< [_2] bytes)"
       upload_file_too_big: "File [_1] is too big (> [_2] bytes)"
-      upload_file_invalid_mimetype: "File type of [_1] is not allowed"
+      upload_file_invalid_mimetype: "File type of [_1] is not allowed (accepted: jpg, tif and txt)"
   accept:
     label: "Accept terms"
     messages:
       required: "One must accept the terms"
   submit:
     label: "save"
+
+  abstract:
+    label: Abstract
+    language:
+      label: Language
+    text:
+      label: Text
