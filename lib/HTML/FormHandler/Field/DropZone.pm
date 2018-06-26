@@ -143,20 +143,28 @@ sub validate {
 
         if ( scalar( @$accept ) > 0 ) {
 
-            #my($base,$type,$subtype) = split(/\./,$basename);
-            #my $mime = "$type/$subtype";
+            my $mime;
 
-            my $real_path = File::Spec->catfile(
-                $directory_index->get( $dir )->{_path},
-                $basename
-            );
-            say STDERR "real_path for $dir:$basename => $real_path";
-            my $info = $self->exif->ImageInfo( $real_path );
-            my $mime = $info->{MIMEType};
+            #Image::ExifTool cannot handle these files ..
+            if ( $basename =~ /\.txt$/o ) {
+
+                $mime = "text/plain";
+
+            }
+            else {
+
+                my $real_path = File::Spec->catfile(
+                    $directory_index->get( $dir )->{_path},
+                    $basename
+                );
+                my $info = $self->exif->ImageInfo( $real_path );
+                $mime = $info->{MIMEType};
+
+            }
 
             my $found = 0;
 
-            unless ( is_string( $info->{Error} ) ) {
+            if ( is_string( $mime ) ) {
 
                 for my $a ( @$accept ) {
                     if ( $a eq $mime ) {
