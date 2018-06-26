@@ -21,3 +21,4 @@ requires 'Business::ISBN';
 requires 'Business::ISSN';
 requires 'Catmandu::FileStore','1.10';
 requires 'Locale::Maketext::Lexicon';
+requires 'MIME::Types';

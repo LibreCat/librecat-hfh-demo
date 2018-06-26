@@ -7,6 +7,7 @@ use Dancer qw(:syntax);
 use POSIX;
 use IO::File;
 use Data::UUID;
+use MIME::Types;
 
 post "/upload" => sub {
 
@@ -17,8 +18,7 @@ post "/upload" => sub {
     my $index = $fstore->index;
 
     my $id = new_id();
-    my($type,$subtype) = split("/",$upload->type);
-    my $fid = new_id().".$type.$subtype";
+    my $fid = new_id().".".mime2extension($upload->type);
     $index->add({ _id => $id }) or return send_errors( "internal_error" );
 
     my $files = $index->files( $id );
@@ -74,6 +74,13 @@ sub send_errors {
 sub new_id {
     state $uuid_gen = Data::UUID->new;
     $uuid_gen->create_str;
+}
+
+sub mime2extension {
+    state $mt = MIME::Types->new();
+    my $mime = $mt->type( $_[0] );
+    my @extensions = $mime->extensions();
+    $extensions[0];
 }
 
 1;
