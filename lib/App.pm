@@ -50,7 +50,8 @@ sub get_form {
 
     my $form = $c->{$key.$lang};
 
-    $form->clear() if $form->validated();
+    #form->clear removes the result and set all fields to 'inactive'. This is safer
+    $form->process( params => {}, posted => 0 );
 
     $form;
 }
