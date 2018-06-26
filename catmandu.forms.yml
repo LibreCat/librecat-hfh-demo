@@ -15,6 +15,9 @@ _prefix:
 # 2) option labels for field type Select
 
 book:
+  info_message: forms.info_message
+  error_message: forms.error_message
+  success_message: forms.success_message
   field_list:
     - &publication_type
       id: publication_type
@@ -381,6 +384,9 @@ book:
           </div>
 
 book2:
+  info_message: forms.info_message
+  error_message: forms.error_message
+  success_message: forms.success_message
   field_list:
     - *publication_type
     - *doi
@@ -417,6 +423,9 @@ book2:
     - *submit
 
 book3:
+  info_message: forms.info_message
+  error_message: forms.error_message
+  success_message: forms.success_message
   field_list:
     - *pubid
     - *pubid_contains

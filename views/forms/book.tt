@@ -8,6 +8,8 @@
   </div>
 </div>
 
+[% INCLUDE form_messages.tt form = form %]
+
 [% form.render %]
 [% IF request.method == "POST" %]
   <pre>

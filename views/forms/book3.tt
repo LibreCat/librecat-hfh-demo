@@ -8,6 +8,8 @@
   </div>
 </div>
 
+[% INCLUDE form_messages.tt form = form %]
+
 <form method="post" class="form-horizontal">
 
   <div class="tab_section">

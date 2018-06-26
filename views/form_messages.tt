@@ -1,0 +1,13 @@
+[% IF form.has_errors %]
+<div class="alert alert-danger">
+  <ul>
+  [% FOREACH error IN form.errors %]
+    <li>[% error %]</li>
+  [% END %]
+  </ul>
+</div>
+[% ELSIF form.validated %]
+<div class="alert alert-success">
+form successfully validated!
+</div>
+[% END %]
