@@ -18,7 +18,8 @@ post "/upload" => sub {
     my $index = $fstore->index;
 
     my $id = new_id();
-    my $fid = new_id().".".mime2extension($upload->type);
+    my $extension = mime2extension($upload->type) or return send_errors( "internal_error" );
+    my $fid = new_id().".".$extension;
     $index->add({ _id => $id }) or return send_errors( "internal_error" );
 
     my $files = $index->files( $id );
